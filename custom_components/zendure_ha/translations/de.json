@@ -46,6 +46,11 @@
     }
   },
   "entity": {
+    "button": {
+      "mqttreset": {
+        "name": "MQTT zurücksetzen"
+      }
+    },
     "binary_sensor": {
       "master_switch": {
         "name": "Hauptschalter"

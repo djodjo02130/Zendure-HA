@@ -20,6 +20,7 @@ from .number import ZendureNumber
 from .select import ZendureRestoreSelect, ZendureSelect
 from .sensor import ZendureCalcSensor, ZendureRestoreSensor, ZendureSensor
 from .switch import ZendureSwitch
+from .button import ZendureButton
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -280,3 +281,7 @@ class ZendureBase:
         if value >= 999:
             return 999
         return value * (soc - level) / (100 - level)
+
+    def button(self, name: str, onpress: Callable[[ZendureButton], None]) -> ZendureButton:
+        return ZendureButton(self, name, onpress)
+

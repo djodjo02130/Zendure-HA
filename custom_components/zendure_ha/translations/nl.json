@@ -46,6 +46,11 @@
     }
   },
   "entity": {
+    "button": {
+      "mqttreset": {
+        "name": "MQTT resetten"
+      }
+    },
     "binary_sensor": {
       "master_switch": {
         "name": "Hoofdschakelaar"

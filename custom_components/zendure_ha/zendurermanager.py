@@ -134,7 +134,6 @@ class ZendureManager(DataUpdateCoordinator[int], ZendureBase):
                 if ZendureDevice.mqttIsLocal:
                     ZendureDevice.mqttCloud.publish(f"iot/{device.prodkey}/{device.deviceId}/register/replay", "", 0, True)
                 ZendureDevice.mqttClient.publish(f"iot/{device.prodkey}/{device.deviceId}/register/replay", "", 0, True)
-                device.setvalue("MqttReset", False)
 
             _LOGGER.info("Zendure Manager initialized")
 

@@ -21,6 +21,7 @@ from .const import AcMode, MqttState
 from .select import ZendureSelect
 from .sensor import ZendureSensor
 from .switch import ZendureSwitch
+from .button import ZendureButton
 from .zendurebase import ZendureBase
 from .zendurebattery import ZendureBattery
 
@@ -90,11 +91,10 @@ class ZendureDevice(ZendureBase):
             self.sensor("ConnectionStatus"),
         ])
 
-        def doMqttReset(entity: ZendureSwitch, value: Any) -> None:
-            entity.update_value(value)
+        def press_mqtt_reset(button: ZendureButton) -> None:
             self._hass.async_create_task(self.bleMqtt())
 
-        ZendureSwitch.add([self.switch("MqttReset", onwrite=doMqttReset, value=False)])
+        ZendureButton.add([self.button("MqttReset", press_mqtt_reset)])
 
     def entitiesBattery(self, _battery: ZendureBattery, _sensors: list[ZendureSensor]) -> None:
         return
@@ -316,7 +316,6 @@ class ZendureDevice(ZendureBase):
                 self.bleErr = True
 
         finally:
-            self.setvalue("MqttReset", False)
             self.mqttStatus()
 
     async def bleCommand(self, client: BleakClient, command: Any) -> None:

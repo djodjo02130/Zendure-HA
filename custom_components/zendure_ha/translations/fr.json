@@ -46,6 +46,11 @@
     }
   },
   "entity": {
+    "button": {
+      "mqttreset": {
+        "name": "Réinitialiser MQTT"
+      }
+    },
     "binary_sensor": {
       "master_switch": {
         "name": "Interrupteur principal"

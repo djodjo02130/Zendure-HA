@@ -46,6 +46,11 @@
     }
   },
   "entity": {
+    "button": {
+      "mqttreset": {
+        "name": "Reset MQTT"
+      }
+    },
     "binary_sensor": {
       "master_switch": {
         "name": "Master Switch"
