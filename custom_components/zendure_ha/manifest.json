@@ -1,6 +1,6 @@
 {
-  "domain": "zendure_ha",
-  "name": "Zendure Home Assistant Integration",
+  "domain": "zendure_ha2",
+  "name": "Zendure Home Assistant Integration Perso",
   "codeowners": [
     "@fireson"
   ],
@@ -9,13 +9,13 @@
     "bluetooth",
     "mqtt"
   ],
-  "documentation": "https://github.com/fireson/zendure-ha",
+  "documentation": "https://github.com/djodjo02130/zendure-ha",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/FireSon/Zendure-HA/issues",
+  "issue_tracker": "https://github.com/djodjo02130/Zendure-HA/issues",
   "requirements": [
     "paho-mqtt==2.1.0",
     "stringcase==1.2.0"
   ],
   "single_config_entry": true,
-  "version": "1.0.44"
+  "version": "1.0.50"
 }

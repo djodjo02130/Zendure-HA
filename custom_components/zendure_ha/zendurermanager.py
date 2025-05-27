@@ -56,7 +56,7 @@ class ZendureManager(DataUpdateCoordinator[int], ZendureBase):
             update_interval=timedelta(seconds=90),
             always_update=True,
         )
-        ZendureBase.__init__(self, hass, "Zendure Manager", "Zendure Manager", "1.0.41")
+        ZendureBase.__init__(self, hass, "Zendure Manager", "Zendure Manager", "1.0.50")
 
         self.p1meter = config_entry.data.get(CONF_P1METER)
         self.operation = 0
