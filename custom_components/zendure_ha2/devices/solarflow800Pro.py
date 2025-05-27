@@ -1,4 +1,4 @@
-"""Module for the Solarflow2400AC device integration in Home Assistant."""
+"""Module for SolarFlow800 integration."""
 
 import logging
 from typing import Any
@@ -6,19 +6,19 @@ from typing import Any
 from homeassistant.components.number import NumberMode
 from homeassistant.core import HomeAssistant
 
-from custom_components.zendure_ha.binary_sensor import ZendureBinarySensor
-from custom_components.zendure_ha.number import ZendureNumber
-from custom_components.zendure_ha.select import ZendureSelect
-from custom_components.zendure_ha.sensor import ZendureSensor
-from custom_components.zendure_ha.switch import ZendureSwitch
-from custom_components.zendure_ha.zenduredevice import ZendureDevice
+from custom_components.zendure_ha2.binary_sensor import ZendureBinarySensor
+from custom_components.zendure_ha2.number import ZendureNumber
+from custom_components.zendure_ha2.select import ZendureSelect
+from custom_components.zendure_ha2.sensor import ZendureSensor
+from custom_components.zendure_ha2.switch import ZendureSwitch
+from custom_components.zendure_ha2.zenduredevice import ZendureDevice
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class SolarFlow2400AC(ZendureDevice):
+class SolarFlow800Pro(ZendureDevice):
     def __init__(self, hass: HomeAssistant, deviceId: str, prodName: str, definition: Any) -> None:
-        """Initialise SolarFlow2400AC."""
+        """Initialise SolarFlow800Pro."""
         super().__init__(hass, deviceId, prodName, definition)
         self.powerMin = -2400
         self.powerMax = 2400

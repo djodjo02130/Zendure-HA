@@ -6,13 +6,13 @@ from typing import Any
 from homeassistant.components.number import NumberMode
 from homeassistant.core import HomeAssistant
 
-from custom_components.zendure_ha.binary_sensor import ZendureBinarySensor
-from custom_components.zendure_ha.number import ZendureNumber
-from custom_components.zendure_ha.select import ZendureSelect
-from custom_components.zendure_ha.sensor import ZendureSensor
-from custom_components.zendure_ha.zendurebase import ZendureBase
-from custom_components.zendure_ha.zendurebattery import ZendureBattery
-from custom_components.zendure_ha.zenduredevice import ZendureDevice
+from custom_components.zendure_ha2.binary_sensor import ZendureBinarySensor
+from custom_components.zendure_ha2.number import ZendureNumber
+from custom_components.zendure_ha2.select import ZendureSelect
+from custom_components.zendure_ha2.sensor import ZendureSensor
+from custom_components.zendure_ha2.zendurebase import ZendureBase
+from custom_components.zendure_ha2.zendurebattery import ZendureBattery
+from custom_components.zendure_ha2.zenduredevice import ZendureDevice
 
 _LOGGER = logging.getLogger(__name__)
 

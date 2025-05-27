@@ -6,24 +6,22 @@ from typing import Any
 from homeassistant.components.number import NumberMode
 from homeassistant.core import HomeAssistant
 
-from custom_components.zendure_ha.binary_sensor import ZendureBinarySensor
-from custom_components.zendure_ha.number import ZendureNumber
-from custom_components.zendure_ha.select import ZendureSelect
-from custom_components.zendure_ha.sensor import ZendureSensor
-from custom_components.zendure_ha.zendurebattery import ZendureBattery
-from custom_components.zendure_ha.zenduredevice import ZendureDevice
+from custom_components.zendure_ha2.binary_sensor import ZendureBinarySensor
+from custom_components.zendure_ha2.number import ZendureNumber
+from custom_components.zendure_ha2.select import ZendureSelect
+from custom_components.zendure_ha2.sensor import ZendureSensor
+from custom_components.zendure_ha2.switch import ZendureSwitch
+from custom_components.zendure_ha2.zenduredevice import ZendureDevice
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class Hub2000(ZendureDevice):
+class AIO2400(ZendureDevice):
     def __init__(self, hass: HomeAssistant, deviceId: str, prodName: str, definition: Any) -> None:
-        """Initialise Hub2000."""
+        """Initialise AIO2400."""
         super().__init__(hass, deviceId, prodName, definition)
-        self.powerMin = -800
-        self.powerMax = 800
-        self.numbers: list[ZendureNumber] = []
-        self.batCount = 0
+        self.powerMin = -1200
+        self.powerMax = 1200
 
     def entitiesCreate(self) -> None:
         super().entitiesCreate()
@@ -34,21 +32,26 @@ class Hub2000(ZendureDevice):
             self.binary("wifiState"),
             self.binary("heatState"),
             self.binary("reverseState"),
-            self.binary("pass"),
         ]
         ZendureBinarySensor.add(binaries)
 
         self.numbers = [
-            self.number("inputLimit", None, "W", "power", 0, 800, NumberMode.SLIDER),
+            self.number("inputLimit", None, "W", "power", 0, 1200, NumberMode.SLIDER),
             self.number("outputLimit", None, "W", "power", 0, 200, NumberMode.SLIDER),
             self.number("socSet", "{{ value | int / 10 }}", "%", None, 5, 100, NumberMode.SLIDER),
             self.number("minSoc", "{{ value | int / 10 }}", "%", None, 5, 100, NumberMode.SLIDER),
         ]
         ZendureNumber.add(self.numbers)
 
+        switches = [
+            self.switch("lampSwitch"),
+        ]
+        ZendureSwitch.add(switches)
+
         sensors = [
             self.sensor("hubState"),
             self.sensor("solarInputPower", None, "W", "power", "measurement"),
+            self.sensor("BatVolt", None, "V", "voltage", "measurement"),
             self.sensor("packInputPower", None, "W", "power", "measurement"),
             self.sensor("outputPackPower", None, "W", "power", "measurement"),
             self.sensor("outputHomePower", None, "W", "power", "measurement"),
@@ -56,11 +59,13 @@ class Hub2000(ZendureDevice):
             self.calculate("remainInputTime", self.remainingInput, "h", "duration"),
             self.sensor("packNum", None),
             self.sensor("electricLevel", None, "%", "battery"),
-            self.sensor("gridPower", None, "W", "power", "measurement"),
             self.sensor("energyPower", None, "W"),
             self.sensor("inverseMaxPower", None, "W"),
             self.sensor("solarPower1", None, "W", "power", "measurement"),
             self.sensor("solarPower2", None, "W", "power", "measurement"),
+            self.sensor("gridInputPower", None, "W", "power", "measurement"),
+            self.sensor("pass", None),
+            self.sensor("strength", None),
         ]
         ZendureSensor.add(sensors)
 
@@ -70,11 +75,6 @@ class Hub2000(ZendureDevice):
             self.select("autoRecover", {0: "off", 1: "on"}),
         ]
         ZendureSelect.add(selects)
-
-    def entitiesBattery(self, battery: ZendureBattery, _sensors: list[ZendureSensor]) -> None:
-        self.batCount += 1
-        self.powerMin = (-1200 if battery.kwh > 1 else -800) if self.batCount == 1 else -1800
-        self.numbers[0].update_range(0, abs(self.powerMin))
 
     def entityUpdate(self, key: Any, value: Any) -> bool:
         # Call the base class entityUpdate method
@@ -97,7 +97,12 @@ class Hub2000(ZendureDevice):
             "arguments": [
                 {
                     "autoModelProgram": 2 if inprogram else 0,
-                    "autoModelValue": power,
+                    "autoModelValue": {
+                        "chargingType": 0 if power >= 0 else 1,
+                        "chargingPower": 0 if power >= 0 else -power,
+                        "freq": 2 if delta < 100 else 1 if delta < 200 else 0,
+                        "outPower": max(0, power),
+                    },
                     "msgType": 1,
                     "autoModel": 8 if inprogram else 0,
                 }

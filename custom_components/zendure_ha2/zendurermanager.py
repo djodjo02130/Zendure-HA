@@ -22,8 +22,8 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from paho.mqtt import client as mqtt_client
 from paho.mqtt import enums as mqtt_enums
 
-from custom_components.zendure_ha import zenduredevice
-from custom_components.zendure_ha.devices.solarflow800Pro import \
+from custom_components.zendure_ha2 import zenduredevice
+from custom_components.zendure_ha2.devices.solarflow800Pro import \
     SolarFlow800Pro
 
 from .api import Api
