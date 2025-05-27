@@ -2,7 +2,7 @@
 
 from enum import NAMED_FLAGS, Enum, Flag, auto, verify
 
-DOMAIN = "zendure_ha"
+DOMAIN = "zendure_ha2"
 
 CONF_P1METER = "p1meter"
 CONF_MQTTLOG = "mqttlog"
