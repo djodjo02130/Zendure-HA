@@ -282,6 +282,8 @@ class ZendureBase:
             return 999
         return value * (soc - level) / (100 - level)
 
-    def button(self, name: str, onpress: Callable[[ZendureButton], None]) -> ZendureButton:
-        return ZendureButton(self, name, onpress)
+    def button(self, uniqueid: str, onpress: Callable[[ZendureButton], None]) -> ZendureButton:
+        b = ZendureButton(self, uniqueid, onpress)
+        self.entities[uniqueid] = b
+        return b
 
